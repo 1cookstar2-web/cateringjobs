@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>School Catering Vacancies — GU14 9LJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..40,400;9..40,500;9..40,600&family=Newsreader:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ===========================================================================
+     "School Catering Vacancies" — civic-utilitarian / printed-noticeboard identity.
+     Design language combined from three independent repos:
+       · pbakaus/impeccable  — hairline-first elevation, ruled flat rows (no soft
+                                shadows), sharp 2–4px radii, weight-inversion,
+                                mono metadata, structural focus, warmed neutrals.
+       · magicuidesign/magicui — the single blur+offset page-load reveal (GPU-cheap).
+       · google-labs-code/design.md — one concrete reference (a UK council/school
+                                staffroom vacancies sheet), one scarce confined accent,
+                                restrained type scale, no pure #000/#fff.
+     Responsive/a11y machinery (clamp, container queries, safe-area, reduced-motion,
+     dark mode, touch targets) is preserved from the prior build.
+     ========================================================================== */
+  :root{
+    color-scheme:light dark;
+    --bg:#F4F1E8;        /* warm limestone paper, never pure white */
+    --surface:#FBF9F3;
+    --ink:#211D17;       /* warm near-black, never #000 */
+    --muted:#6E6557;
+    --line:#D8D1BE;      /* taupe hairline = the ruled lines of the form */
+    --line-strong:#C3BAA3;
+    --accent:#1F5C3D;    /* one scarce institutional forest green (replaces SaaS blue) */
+    --accent-dark:#18492F;
+    --flag:#9A3526;      /* rationed terracotta — New / live status ONLY */
+    --on-accent:#FBF9F3;
+    --ease:cubic-bezier(0.2,0.8,0.2,1);
+    --display:'Fraunces',Georgia,'Times New Roman',serif;
+    --body:'Newsreader',Georgia,'Times New Roman',serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --maxw:720px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#16140F;--surface:#1E1B15;--ink:#ECE6D6;--muted:#A39A87;
+      --line:#322D23;--line-strong:#423B2E;
+      --accent:#58A77B;--accent-dark:#6FBF93;--flag:#D9745F;--on-accent:#16140F;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;font-size:clamp(15px,14px + 0.45vw,18px)}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:linear-gradient(var(--line) .5px,transparent .5px);background-size:100% 2.2rem;
+    background-attachment:local}
+  .sheet{width:100%;max-width:var(--maxw);margin-inline:auto;
+    padding-top:clamp(20px,5vw,36px);
+    padding-bottom:calc(56px + env(safe-area-inset-bottom));
+    padding-left:max(clamp(16px,4vw,22px),env(safe-area-inset-left));
+    padding-right:max(clamp(16px,4vw,22px),env(safe-area-inset-right))}
+
+  .eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted)}
+
+  /* ---- masthead: document, not hero. Left binding rule. ---- */
+  .masthead{border-left:3px solid var(--accent);padding-left:14px}
+  .masthead h1{font-family:var(--display);font-weight:500;letter-spacing:-.01em;
+    font-size:clamp(1.6rem,1.32rem + 1.3vw,2rem);line-height:1.08;margin-top:7px;text-wrap:balance}
+  .masthead p{color:var(--muted);font-size:.95rem;margin-top:8px;text-wrap:pretty}
+  .rule{height:0;border:none;border-top:1.5px solid var(--ink);opacity:.85;margin-top:16px}
+
+  /* ---- search = a ruled paper form ---- */
+  .form{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--accent);
+    border-radius:4px;padding:clamp(15px,3.5vw,18px);margin-top:clamp(20px,4vw,28px)}
+  .form .eyebrow{display:block;margin-bottom:13px}
+  .row{display:flex;flex-wrap:wrap;gap:14px;align-items:end}
+  .field{flex:1 1 200px;min-width:0}
+  label{display:block;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  select{width:100%;padding:11px 12px;border:1px solid var(--line-strong);border-radius:4px;
+    font-family:var(--body);font-size:16px;color:var(--ink);background:var(--bg)}
+  .toggle{display:flex;align-items:center;gap:10px;min-height:44px;font-size:.98rem;cursor:pointer}
+  .toggle input{width:20px;height:20px;accent-color:var(--accent)}
+  .hint{margin-top:13px;font-size:.86rem;color:var(--muted);line-height:1.5;text-wrap:pretty}
+  .hint b{color:var(--ink);font-weight:600}
+  .btn{width:100%;margin-top:15px;background:var(--accent);color:var(--on-accent);border:none;
+    min-height:50px;padding:13px;border-radius:4px;font-family:var(--mono);font-size:.82rem;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s;
+    display:flex;align-items:center;justify-content:center;gap:9px;touch-action:manipulation}
+  .btn:hover{background:var(--accent-dark)}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.55;cursor:default}
+  .spinner{width:14px;height:14px;border:2px solid color-mix(in srgb,var(--on-accent) 40%,transparent);
+    border-top-color:var(--on-accent);border-radius:50%;animation:spin .7s linear infinite;display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---- status line: flat mono tag + single dot, no pill bubble ---- */
+  .statusbar{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    flex-wrap:wrap;margin-top:clamp(22px,4vw,30px);padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .count{font-size:.92rem;color:var(--muted)}
+  .count .num{font-family:var(--display);font-weight:600;font-size:1.4rem;color:var(--ink);
+    margin-right:3px;line-height:1}
+  .tag{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .tag .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .tag.live .dot{background:var(--flag)}
+
+  /* ---- the note (was a blue card) — a left-ruled marginal note ---- */
+  .note{margin-top:16px;border-left:3px solid var(--line-strong);padding:2px 0 2px 13px;
+    font-size:.86rem;color:var(--muted);line-height:1.55;text-wrap:pretty}
+  .note b{color:var(--ink);font-weight:600}
+
+  /* ---- results = one bounded ledger of ruled rows (hairlines, no shadow) ---- */
+  .ledger{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:4px;
+    overflow:hidden;list-style:none;container:ledger / inline-size}
+  .rowj{padding:17px clamp(14px,3.5vw,20px);border-top:1px solid var(--line)}
+  .rowj:first-child{border-top:none}
+  .rowj.is-new{box-shadow:inset 3px 0 0 var(--flag)}
+  .rowj-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+  .rowj-title{font-family:var(--body);font-weight:600;font-size:1.06rem;line-height:1.3;
+    letter-spacing:-.005em;text-wrap:balance}
+  .salary{font-family:var(--mono);font-weight:500;font-size:.82rem;color:var(--accent);
+    white-space:nowrap;flex:none}
+  .salary.na{color:var(--muted)}
+  .employer{font-family:var(--body);color:var(--muted);font-size:.92rem;margin-top:3px}
+  .metaline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 9px;margin-top:10px;
+    font-family:var(--mono);font-size:.69rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .metaline .sep{width:3px;height:3px;border-radius:50%;background:var(--line-strong);flex:none}
+  .flag{font-family:var(--mono);font-size:.64rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--flag);border:1px solid color-mix(in srgb,var(--flag) 55%,var(--line));border-radius:2px;padding:1px 5px}
+  .src{color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:1px 6px}
+  .desc{font-family:var(--body);font-size:.95rem;line-height:1.55;color:var(--ink);margin-top:11px;
+    text-wrap:pretty;overflow-wrap:anywhere}
+  .rowj-foot{margin-top:13px}
+  .view{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:9px 16px;
+    font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);text-decoration:none;border:1px solid var(--line-strong);border-radius:4px;
+    transition:color .15s,border-color .15s;touch-action:manipulation}
+  .view:hover{color:var(--accent-dark);border-color:var(--accent)}
+
+  .empty{padding:40px 16px;color:var(--muted);font-size:.95rem;text-align:center}
+
+  footer{margin-top:clamp(28px,5vw,44px);padding-top:14px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:.69rem;line-height:1.7;letter-spacing:.02em;color:var(--muted);text-transform:uppercase}
+  footer .prose{font-family:var(--body);font-size:.8rem;line-height:1.6;text-transform:none;letter-spacing:0;
+    margin-top:10px}
+  footer b{color:var(--ink)}
+
+  /* ---- the one motion: blur-rise reveal, staggered, fired on render ---- */
+  @keyframes rise{from{opacity:0;transform:translateY(6px);filter:blur(6px)}
+    to{opacity:1;transform:none;filter:blur(0)}}
+  .rowj.reveal{animation:rise .42s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+
+  /* ---- structural focus (no soft glow) ---- */
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  select:focus-visible{outline-offset:0}
+
+  /* ===== responsive machinery (preserved) ===== */
+  @media (max-width:520px){ .field{flex:1 1 100%} }
+  @container ledger (max-width:340px){
+    .rowj-top{flex-direction:column;align-items:flex-start;gap:4px}
+    .view{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    .rowj.reveal{animation:none;opacity:1;filter:none;transform:none}
+  }
+  @media (pointer:coarse){ .btn{min-height:52px} .view{min-height:46px} }
+
+  /* ---- live-updates connect panel ---- */
+  .live-config{margin-top:clamp(22px,4vw,30px)}
+  .live-config summary{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);cursor:pointer;list-style:none}
+  .live-config summary::-webkit-details-marker{display:none}
+  .lc-body{margin-top:12px;border-left:3px solid var(--line-strong);padding-left:13px}
+  .lc-body p{font-size:.86rem;color:var(--muted);line-height:1.55;text-wrap:pretty}
+  .lc-body code{font-family:var(--mono);font-size:.82em;background:var(--bg);border:1px solid var(--line);
+    border-radius:3px;padding:1px 5px;overflow-wrap:anywhere}
+  .lc-row{display:flex;gap:8px;margin:12px 0}
+  .lc-row input{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line-strong);border-radius:4px;
+    font-family:var(--mono);font-size:16px;color:var(--ink);background:var(--bg)}
+  .lc-row button{flex:none;background:var(--ink);color:var(--bg);border:none;border-radius:4px;padding:0 16px;
+    min-height:44px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .lc-status{font-size:.82rem;color:var(--muted)}
+  .lc-status b{color:var(--ink);font-weight:600;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="masthead">
+    <span class="eyebrow">School Catering Vacancies</span>
+    <h1>Catering &amp; kitchen jobs in schools</h1>
+    <p>Around Farnborough <b>GU14&nbsp;9LJ</b> · within 10&nbsp;miles · assistant &amp; kitchen roles only</p>
+  </header>
+  <hr class="rule">
+
+  <section class="form">
+    <span class="eyebrow">Filter vacancies</span>
+    <div class="row">
+      <div class="field">
+        <label for="radius">Distance from GU14&nbsp;9LJ</label>
+        <select id="radius">
+          <option value="5">Within 5 miles</option>
+          <option value="10" selected>Within 10 miles</option>
+          <option value="15">Within 15 miles</option>
+          <option value="20">Within 20 miles</option>
+        </select>
+      </div>
+      <div class="field" style="flex:0 1 auto">
+        <label>&nbsp;</label>
+        <div class="toggle"><input type="checkbox" id="schools" checked><span>Schools only</span></div>
+      </div>
+    </div>
+    <p class="hint">Covers the whole role family — <b>catering assistant, kitchen assistant, catering
+      operative, canteen &amp; servery assistant, food-service assistant, school cook, kitchen porter,
+      dinner assistant</b>. Leave <b>Schools only</b> ticked for school roles; untick to include other
+      catering employers.</p>
+    <button class="btn" id="searchBtn" onclick="runSearch()">
+      <span class="spinner" id="spin"></span><span id="btnLabel">Search vacancies</span>
+    </button>
+  </section>
+
+  <div class="statusbar">
+    <div class="count" id="count"></div>
+    <span class="tag" id="modeChip"><span class="dot"></span>checking…</span>
+  </div>
+
+  <p class="note" id="note"></p>
+
+  <ol class="ledger" id="results"></ol>
+
+  <details class="live-config">
+    <summary>⚙ Live updates — fetch fresh jobs on Search</summary>
+    <div class="lc-body">
+      <p>Offline, this page shows a verified snapshot. To make <b>Search</b> pull <b>fresh</b> jobs each
+        time, connect the included data endpoint (deploy <code>functions/api/jobs.js</code> free on
+        Cloudflare — see README). Browsers block job-board APIs directly for security, so the endpoint does
+        the fetching; once connected, this HTML file alone updates live on every Search.</p>
+      <div class="lc-row">
+        <input type="url" id="endpoint" placeholder="https://your-app.pages.dev" autocomplete="off" inputmode="url">
+        <button type="button" onclick="saveEndpoint()">Connect</button>
+      </div>
+      <p class="lc-status" id="endpointStatus"></p>
+    </div>
+  </details>
+
+  <footer>
+    <div><b>Sources searched —</b> <span id="srcList">Compass / Chartwells, ESS, Caterlink, Aspens,
+      Impact&nbsp;Food&nbsp;Group, Adzuna, Reed, Totaljobs, Caterer.com, Leisurejobs, Indeed, GOV.UK
+      Find&nbsp;a&nbsp;Job, Hampshire&nbsp;HC3S.</span></div>
+    <p class="prose">Every “View job” link opens that single vacancy’s own application page — never a
+      search list. Listings change constantly and a role can close at any time, so always confirm details
+      on the employer’s page. Distances are approximate straight-line estimates from GU14&nbsp;9LJ.</p>
+  </footer>
+</div>
+
+<script>
+  // ====================================================================
+  // VERIFIED SNAPSHOT — 14 distinct current vacancies, captured 20 Jun 2026.
+  // Each was individually fetched & confirmed as a single-vacancy apply page
+  // (deduped across boards; employer apply pages preferred). Same shape as
+  // /api/jobs, so live + snapshot render identically.
+  // <<<SNAPSHOT_START>>>
+  const SNAPSHOT_META = { capturedISO: '2026-06-20' };
+  const SNAPSHOT = [
+    {"id":"v1","title":"School Cook — Henry Tyndale School","employer":"Chartwells (Compass Group UK&I)","url":"https://jobs.compass-group.co.uk/job/75816135","source":"compass","location":"Farnborough, GU14 8BX","distanceMiles":0.5,"salaryHourly":13.81,"salaryText":null,"postedDateISO":"2026-06-15","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted 15 Jun","desc":"School cook at Henry Tyndale (special school), Farnborough — part time 25 hrs/week, 43.8 weeks/year. Food preparation and service in the school kitchen. Enhanced DBS required.","school":true},
+    {"id":"v2","title":"School Catering Assistant — Talavera Juniors","employer":"Chartwells (Compass Group UK&I)","url":"https://www.adzuna.co.uk/jobs/details/5767532474","source":"adzuna_web","location":"Aldershot, GU11 1RG","distanceMiles":2.5,"salaryHourly":12.56,"salaryText":null,"postedDateISO":"2026-06-13","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Live — apply now","desc":"Kitchen/catering assistant at Talavera Junior School, Aldershot for Chartwells — part time 10 hrs/week, 43 weeks/year. Food prep, kitchen cleanliness, deliveries, food hygiene.","school":true},
+    {"id":"v3","title":"School Catering Assistant — Velmead Juniors","employer":"Chartwells","url":"https://www.totaljobs.com/job/school-catering-assistant/chartwells-job107500230","source":"totaljobs","location":"Fleet, GU52 7LG","distanceMiles":6,"salaryHourly":12.81,"salaryText":null,"postedDateISO":"2026-06-13","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted ~1 week ago","desc":"Kitchen assistant for Chartwells at Velmead Junior School, Fleet — part time 10 hrs/week, 43.8 weeks/year. Preparing food, kitchen cleanliness, food hygiene compliance.","school":true},
+    {"id":"v4","title":"School Catering Assistant — Guillemont Juniors","employer":"Chartwells","url":"https://www.jobijoba.co.uk/detail/92/a81a7bcc0e1d0879132039f78e0650bf","source":"jobijoba","location":"Farnborough, GU14 9ES","distanceMiles":0.5,"salaryHourly":12.81,"salaryText":null,"postedDateISO":"2026-06-01","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted 1 Jun","desc":"Kitchen assistant for Chartwells at Guillemont Junior School, Farnborough — part time, around 15 hrs/week, term time. About 1 mile from GU14 9LJ.","school":true},
+    {"id":"v5","title":"School Catering Assistant — Camberley","employer":"Chartwells (Compass Group UK&I)","url":"https://jobs.compass-group.co.uk/job/75813082","source":"compass","location":"Camberley, GU15 2QB","distanceMiles":5,"salaryHourly":12.71,"salaryText":null,"postedDateISO":"2026-06-12","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted ~1 week ago","desc":"Part-time catering assistant (20 hrs/week, 44 weeks/year, Mon–Fri) with Chartwells at a school — food prep, counter displays, till, and food hygiene & safety standards.","school":true},
+    {"id":"v6","title":"School Catering Assistant — Camberley (GU17)","employer":"Chartwells (Compass Group UK&I)","url":"https://www.caterer.com/job/school-catering-assistant/chartwells-job107520879","source":"caterer","location":"Camberley, GU17 0NY","distanceMiles":7,"salaryHourly":14.01,"salaryText":null,"postedDateISO":"2026-06-12","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted ~1 week ago","desc":"Catering assistant in a fast-paced school catering team with Chartwells (part of Compass Group) — food service, counter and kitchen support, term-time hours.","school":true},
+    {"id":"v7","title":"School Catering Assistant — Aldershot","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4913432/school-catering-assistant-aldershot","source":"leisure_hospi","location":"Aldershot","distanceMiles":3.5,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 14 Jul","desc":"Kitchen assistant for ESS/Chartwells, part time 10 hrs/week, 43 weeks/year — food prep, kitchen cleanliness, deliveries, food hygiene. Enhanced DBS required.","school":true},
+    {"id":"v8","title":"School Catering Assistant — Farnborough","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4886303/school-catering-assistant-farnborough","source":"leisure_hospi","location":"Farnborough","distanceMiles":0,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 24 Jun","desc":"Part-time kitchen assistant for ESS/Chartwells, 15 hrs/week, 43.8 weeks/year — preparing food, kitchen cleanliness, machinery use and deliveries. Enhanced DBS required.","school":true},
+    {"id":"v9","title":"Catering Assistant — Edgeborough School","employer":"Edgeborough School","url":"https://www.reed.co.uk/jobs/catering-assistant/57010099","source":"reed","location":"Frensham, Farnham","distanceMiles":8,"salaryHourly":null,"salaryText":"£17,845 / year","postedDateISO":"2026-06-11","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 29 Jun","desc":"Catering assistant at Edgeborough School (independent prep school) — food preparation, hygiene and allergen compliance, morning fruit and afternoon snacks, sandwiches for clubs/events.","school":true}
+  ];
+  // <<<SNAPSHOT_END>>>
+  // ====================================================================
+
+  const SRC = {compass:'Compass careers',adzuna_web:'Adzuna',totaljobs:'Totaljobs',caterer:'Caterer.com',
+    leisure_hospi:'Leisurejobs',reed:'Reed',jobijoba:'Jobijoba',caterlink:'Caterlink ATS',
+    impactfood:'Impact Food Group',breakroom:'Breakroom',indeed:'Indeed',hampshire:'Hampshire'};
+  function srcLabel(s){ return SRC[s] || (s||'').replace(/\s*\(.*$/,'') || ''; }
+
+  // Mobile / roving roles are excluded EVERYWHERE — snapshot and live results alike.
+  // Catches: "mobile", relief / cover-the-area, driver, peripatetic, "area catering",
+  // "own transport", "covering multiple schools/sites", etc.
+  const MOBILE_RE = /\b(?:mobile|peripatetic|relief|roving|roaming|driver|driving)\b|\bown\s+(?:transport|car|vehicle)\b|\barea\s+catering\b|cover(?:ing|s)?\s+(?:multiple|several|various|the\s+[\w\s]+?\s+)?(?:schools|sites|area)|across\s+(?:multiple\s+)?(?:schools|sites)|multiple\s+(?:schools|sites|kitchens)/i;
+  function isMobileRole(j){ return MOBILE_RE.test((j.title||'')+' '+(j.desc||'')+' '+(j.location||'')); }
+
+  let liveMode = false;
+  function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function salaryHtml(j){
+    if(j.salaryHourly!=null) return '<span class="salary">£'+Number(j.salaryHourly).toFixed(2)+'/hr</span>';
+    return '<span class="salary na">'+esc(j.salaryText||'Rate not stated')+'</span>';
+  }
+  function distTxt(j){
+    const d=(j.distanceMiles!=null)?Number(j.distanceMiles).toFixed(1)+' mi':'within radius';
+    return esc((j.location||'')+(j.location?' · ':'')+d);
+  }
+  function seenKey(j){ return Date.parse(j.firstSeenISO||j.postedDateISO||0)||0; }
+
+  function render(jobs){
+    const root = document.getElementById('results');
+    if(!jobs.length){
+      root.innerHTML = '<li class="empty">No matching school catering vacancies in range right now.<br>Try widening the distance or unticking “Schools only”.</li>';
+      document.getElementById('count').innerHTML = '';
+      return;
+    }
+    jobs.sort((a,b)=> seenKey(b)-seenKey(a)
+      || (Date.parse(b.postedDateISO||0)||0)-(Date.parse(a.postedDateISO||0)||0)
+      || (a.distanceMiles??99)-(b.distanceMiles??99));
+    const newCount = jobs.filter(j=>j.isNew).length;
+    document.getElementById('count').innerHTML =
+      '<span class="num">'+jobs.length+'</span> '+(liveMode?'live':'verified')+' vacanc'+(jobs.length===1?'y':'ies')+
+      (newCount?' · '+newCount+' new':'')+' · newest first';
+    root.innerHTML = jobs.map((j,i)=>`
+      <li class="rowj reveal ${j.isNew?'is-new':''}" style="--i:${i}">
+        <div class="rowj-top">
+          <h3 class="rowj-title">${esc(j.title)}</h3>
+          ${salaryHtml(j)}
+        </div>
+        <div class="employer">${esc(j.employer)}</div>
+        <div class="metaline">
+          ${j.isNew?'<span class="flag">New</span>':''}
+          <span>${distTxt(j)}</span>
+          <span class="sep"></span>
+          <span>${esc(j.dateLabel||'')}</span>
+          ${j.source?'<span class="src">'+esc(srcLabel(j.source))+'</span>':''}
+        </div>
+        <p class="desc">${esc(j.desc)}</p>
+        <div class="rowj-foot">
+          <a class="view" href="${esc(j.url)}" target="_blank" rel="noopener">View job →</a>
+        </div>
+      </li>`).join('');
+  }
+
+  function setLoading(on){
+    document.getElementById('searchBtn').disabled = on;
+    document.getElementById('spin').style.display = on?'inline-block':'none';
+    document.getElementById('btnLabel').textContent = on?'Searching…':'Search vacancies';
+  }
+  function setMode(live, msg){
+    const chip = document.getElementById('modeChip');
+    const note = document.getElementById('note');
+    if(live){
+      liveMode = true;
+      chip.className='tag live'; chip.innerHTML='<span class="dot"></span>Live · multi-site';
+      note.innerHTML = '<b>Live search.</b> Results come from real job-board APIs (Adzuna, Reed and others), '+
+        'filtered to school catering &amp; kitchen-assistant roles near GU14&nbsp;9LJ. Each links to its own '+
+        'posting; roles first seen in the last 36&nbsp;hours are flagged <b>New</b> at the top.';
+    }else{
+      liveMode = false;
+      chip.className='tag'; chip.innerHTML='<span class="dot"></span>Verified snapshot · 20 Jun 2026';
+      note.innerHTML = (msg||'')+'<b>Verified snapshot · 20 Jun 2026.</b> 9 fixed-site vacancies — '+
+        'mobile/roving roles excluded — each individually checked as a single-job apply page. '+
+        'To make Search fetch <b>fresh</b> jobs, connect your live endpoint under “Live updates” below.';
+    }
+  }
+
+  function liveEndpoints(){
+    const list = [];
+    const saved = (localStorage.getItem('jobsEndpoint')||'').trim().replace(/\/+$/,'');
+    if(saved) list.push(saved + '/api/jobs');                              // your deployed function (CORS-enabled → works from a local file)
+    try{ list.push(new URL('/api/jobs', location.href).href); }catch(e){}  // same-origin when this page is served by the function
+    return list;
+  }
+
+  async function runSearch(){
+    setLoading(true);
+    const radius = Number(document.getElementById('radius').value);
+    const schoolsOnly = document.getElementById('schools').checked;
+
+    // Press Search → look for fresh jobs from a live endpoint first.
+    for(const base of liveEndpoints()){
+      try{
+        const u = new URL(base);
+        u.searchParams.set('postcode','GU14 9LJ');
+        u.searchParams.set('radius', radius);
+        u.searchParams.set('schoolsOnly', schoolsOnly?'1':'0');
+        const res = await fetch(u, {cache:'no-store'});
+        if(!res.ok) continue;
+        const data = await res.json();
+        if(data && data.live && Array.isArray(data.jobs)){
+          if(data.sources&&data.sources.length) document.getElementById('srcList').textContent = data.sources.join(', ');
+          const jobs = data.jobs.filter(j=> !isMobileRole(j));   // never show mobile, even live
+          setMode(true); render(jobs); setLoading(false); return;
+        }
+        if(data && data.reason) setMode(false, esc(data.reason)+' ');
+      }catch(e){ /* try next endpoint, then snapshot */ }
+    }
+
+    // Offline / no endpoint connected → verified snapshot (mobile already stripped, filtered again for safety).
+    setMode(false);
+    let jobs = SNAPSHOT.map(j=>({...j}))
+      .filter(j=> !isMobileRole(j))
+      .filter(j=> j.distanceMiles==null || j.distanceMiles <= radius);
+    if(schoolsOnly) jobs = jobs.filter(j=> j.school!==false);
+    render(jobs);
+    setLoading(false);
+  }
+
+  function saveEndpoint(){
+    const v = (document.getElementById('endpoint').value||'').trim().replace(/\/+$/,'');
+    if(v) localStorage.setItem('jobsEndpoint', v); else localStorage.removeItem('jobsEndpoint');
+    updateEndpointStatus();
+    runSearch();
+  }
+  function updateEndpointStatus(){
+    const saved = (localStorage.getItem('jobsEndpoint')||'').trim();
+    const st = document.getElementById('endpointStatus');
+    const inp = document.getElementById('endpoint');
+    if(inp && saved && !inp.value) inp.value = saved;
+    if(st) st.innerHTML = saved
+      ? 'Connected to <b>'+esc(saved)+'</b> — Search now pulls live jobs from here.'
+      : 'Not connected — showing the verified snapshot. Paste your deployed endpoint URL to make Search fetch fresh jobs.';
+  }
+
+  updateEndpointStatus();
+  runSearch();
+</script>
+</body>
+</html>

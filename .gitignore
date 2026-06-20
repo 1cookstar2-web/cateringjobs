@@ -27,6 +27,9 @@ aws[-_]*.json
 credentials.json
 secrets.yaml
 secrets.yml
+# --- local verification screenshots / wrangler ---
+.verify/
+.wrangler/
 # --- heavy / build artifacts ---
 *.tgz
 *.zip

@@ -1,0 +1,19 @@
+# Cloudflare Pages config for the School Catering Jobs app.
+# Deploy:  npx wrangler pages deploy .
+name = "school-catering-jobs"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "."
+
+# KV namespace used to remember when each job was first seen (drives "New" +
+# date-seen ordering). Create it once, then paste the id below:
+#   npx wrangler kv namespace create JOBS_KV
+[[kv_namespaces]]
+binding = "JOBS_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# Non-secret defaults can live here. Put the real API keys in as *secrets*:
+#   npx wrangler pages secret put ADZUNA_APP_ID
+#   npx wrangler pages secret put ADZUNA_APP_KEY
+#   npx wrangler pages secret put REED_API_KEY      # optional
+[vars]
+ORIGIN_POSTCODE = "GU14 9LJ"
