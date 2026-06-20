@@ -1,0 +1,41 @@
+# Auto-added by the IDE "Sync to GitHub" option — keeps secrets & heavy files out of git.
+node_modules/
+# --- secrets / credentials ---
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+.npmrc
+.pgpass
+.netrc
+kubeconfig
+.kube/config
+*.tfstate
+*.tfstate.*
+service[-_]account*.json
+*[-_]key.json
+gcp[-_]*.json
+firebase[-_]*.json
+aws[-_]*.json
+credentials.json
+secrets.yaml
+secrets.yml
+# --- heavy / build artifacts ---
+*.tgz
+*.zip
+dist/
+build/
+.next/
+out/
+coverage/
+*.log
+__pycache__/
+.venv/
+.DS_Store
