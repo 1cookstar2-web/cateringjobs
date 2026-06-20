@@ -29,14 +29,21 @@ jobs:
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: node scripts/fetch-jobs.js
-      - name: Commit refreshed jobs.json
+      - name: Commit refreshed jobs.json (race-safe)
         run: |
           git config user.name "cateringjobs-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- jobs.json; then
-            echo "jobs.json unchanged — nothing to commit."
-          else
+          # Robust against concurrent pushes: re-base our regenerated jobs.json onto
+          # the latest origin and retry, so a push race never fails the run.
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main
+            git reset -q --soft origin/main        # keep our regenerated jobs.json, on top of latest origin
             git add jobs.json
-            git commit -m "data: refresh jobs.json [skip ci]"
-            git push
-          fi
+            if git diff --cached --quiet; then
+              echo "jobs.json matches origin — nothing to push."; exit 0
+            fi
+            git commit -q -m "data: refresh jobs.json [skip ci]"
+            if git push -q origin HEAD:main; then echo "pushed on attempt $i"; exit 0; fi
+            echo "push race on attempt $i — retrying…"; sleep $((i * 3))
+          done
+          echo "::error::could not push jobs.json after 5 attempts"; exit 1
