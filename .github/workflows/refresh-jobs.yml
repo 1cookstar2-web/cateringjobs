@@ -1,0 +1,42 @@
+name: Refresh jobs every 10 minutes
+
+# Runs on GitHub's free runners (public repo = unlimited minutes) — nothing runs
+# on your own server. Regenerates jobs.json, which the static site polls.
+# Any API key lives ONLY in repo Secrets (server-side) — never on the website.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes (UTC); GitHub schedules are best-effort
+  workflow_dispatch: {}       # lets you (or me) trigger a run on demand
+
+# No `push` trigger → the bot's own jobs.json commit will not re-trigger this.
+permissions:
+  contents: write
+concurrency:
+  group: refresh-jobs
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Fetch + filter jobs
+        env:
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+        run: node scripts/fetch-jobs.js
+      - name: Commit refreshed jobs.json
+        run: |
+          git config user.name "cateringjobs-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- jobs.json; then
+            echo "jobs.json unchanged — nothing to commit."
+          else
+            git add jobs.json
+            git commit -m "data: refresh jobs.json [skip ci]"
+            git push
+          fi
