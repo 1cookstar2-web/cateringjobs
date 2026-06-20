@@ -19,7 +19,7 @@ const path = require('path');
 const OUT = path.join(__dirname, '..', 'jobs.json');
 const ORIGIN = { lat: 51.2845, lon: -0.7596 };           // GU14 9LJ (approx)
 const RADIUS_MI = 10;
-const NEW_WINDOW_MS = 36 * 60 * 60 * 1000;
+const NEW_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;   // "New" = POSTED within the last 3 days
 
 // ---- relevance (mirrors functions/api/jobs.js) ----
 const SETTING = "(?:catering|kitchen|canteen|servery|serveries|dining|food[\\s-]*service[s]?|school[\\s-]*meals?|midday[\\s-]*meals?|lunchtime|dinner|meal[\\s-]*time)";
@@ -120,7 +120,7 @@ async function fetchAdzuna() {
         salaryHourly: extractHourly(`${r.title} ${r.desc}`, r.salaryMin),
         salaryText: extractHourly(`${r.title} ${r.desc}`, r.salaryMin) ? null : 'Rate not stated by listing',
         postedDateISO: r.postedDateISO, firstSeenISO,
-        isNew: now - Date.parse(firstSeenISO) < NEW_WINDOW_MS,
+        isNew: r.postedDateISO ? (now - Date.parse(r.postedDateISO) < NEW_WINDOW_MS) : false,
         dateLabel: relLabel(r.postedDateISO, now) || 'Live — apply now',
         desc: r.desc.length > 300 ? r.desc.slice(0, 297) + '…' : r.desc, school: true,
       });
@@ -129,7 +129,7 @@ async function fetchAdzuna() {
   } else {
     // no key (or no results) → keep the verified baseline, just re-stamp & recompute "new"
     jobs = (baseline.jobs || []).filter((j) => !isMobile(j.title, j.desc, j.location)).map((j) => ({
-      ...j, isNew: now - Date.parse(j.firstSeenISO || j.postedDateISO || nowISO) < NEW_WINDOW_MS,
+      ...j, isNew: j.postedDateISO ? (now - Date.parse(j.postedDateISO) < NEW_WINDOW_MS) : false,
     }));
     console.log(`No Adzuna key (or no results) — kept ${jobs.length} baseline jobs, refreshed timestamp.`);
   }

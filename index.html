@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>School Catering Vacancies — GU14 9LJ</title>
+<link rel="icon" href="data:,">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..40,400;9..40,500;9..40,600&family=Newsreader:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -87,6 +89,10 @@
   .toggle input{width:20px;height:20px;accent-color:var(--accent)}
   .hint{margin-top:13px;font-size:.86rem;color:var(--muted);line-height:1.5;text-wrap:pretty}
   .hint b{color:var(--ink);font-weight:600}
+  .autonote{display:flex;align-items:center;gap:9px;margin-top:15px;font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .autonote .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;animation:pulse 2.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   .btn{width:100%;margin-top:15px;background:var(--accent);color:var(--on-accent);border:none;
     min-height:50px;padding:13px;border-radius:4px;font-family:var(--mono);font-size:.82rem;font-weight:500;
     letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s;
@@ -204,7 +210,7 @@
     <div class="row">
       <div class="field">
         <label for="radius">Distance from GU14&nbsp;9LJ</label>
-        <select id="radius">
+        <select id="radius" onchange="applyFilters()">
           <option value="5">Within 5 miles</option>
           <option value="10" selected>Within 10 miles</option>
           <option value="15">Within 15 miles</option>
@@ -213,16 +219,14 @@
       </div>
       <div class="field" style="flex:0 1 auto">
         <label>&nbsp;</label>
-        <div class="toggle"><input type="checkbox" id="schools" checked><span>Schools only</span></div>
+        <div class="toggle"><input type="checkbox" id="schools" checked onchange="applyFilters()"><span>Schools only</span></div>
       </div>
     </div>
     <p class="hint">Covers the whole role family — <b>catering assistant, kitchen assistant, catering
       operative, canteen &amp; servery assistant, food-service assistant, school cook, kitchen porter,
       dinner assistant</b>. Leave <b>Schools only</b> ticked for school roles; untick to include other
       catering employers.</p>
-    <button class="btn" id="searchBtn" onclick="runSearch()">
-      <span class="spinner" id="spin"></span><span id="btnLabel">Search vacancies</span>
-    </button>
+    <p class="autonote"><span class="dot"></span>Updates automatically every 10&nbsp;minutes — change a filter and the list updates instantly.</p>
   </section>
 
   <div class="statusbar">
@@ -293,6 +297,7 @@
   function isMobileRole(j){ return MOBILE_RE.test((j.title||'')+' '+(j.desc||'')+' '+(j.location||'')); }
 
   let liveMode = false;
+  let DATA = SNAPSHOT;        // last loaded dataset; filter changes re-render this without re-fetching
   function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function salaryHtml(j){
     if(j.salaryHourly!=null) return '<span class="salary">£'+Number(j.salaryHourly).toFixed(2)+'/hr</span>';
@@ -340,10 +345,13 @@
   }
 
   function setLoading(on){
-    document.getElementById('searchBtn').disabled = on;
+    const btn = document.getElementById('searchBtn');
+    if(!btn) return;                        // button removed — auto-refresh loads silently
+    btn.disabled = on;
     document.getElementById('spin').style.display = on?'inline-block':'none';
     document.getElementById('btnLabel').textContent = on?'Searching…':'Search vacancies';
   }
+  function applyFilters(){ applyAndRender(DATA); }   // filter change → re-render instantly, no re-fetch
   function setMode(live, msg){
     const chip = document.getElementById('modeChip');
     const note = document.getElementById('note');
@@ -363,11 +371,10 @@
   }
 
   function liveEndpoints(){
-    const list = [];
+    // Only an explicitly-connected Cloudflare function (CORS-enabled). On the
+    // GitHub Pages host the data source is jobs.json (refreshed by the Action).
     const saved = (localStorage.getItem('jobsEndpoint')||'').trim().replace(/\/+$/,'');
-    if(saved) list.push(saved + '/api/jobs');                              // your deployed function (CORS-enabled → works from a local file)
-    try{ list.push(new URL('/api/jobs', location.href).href); }catch(e){}  // same-origin when this page is served by the function
-    return list;
+    return saved ? [saved + '/api/jobs'] : [];
   }
 
   function applyAndRender(jobs){
@@ -408,7 +415,7 @@
         if(data && data.live && Array.isArray(data.jobs)){
           if(data.sources&&data.sources.length) document.getElementById('srcList').textContent = data.sources.join(', ');
           setMode(true); setUpdatedStamp(data.fetchedAtISO || new Date().toISOString());
-          applyAndRender(data.jobs); setLoading(false); return;
+          DATA = data.jobs; applyAndRender(DATA); setLoading(false); return;
         }
         if(data && data.reason) setMode(false, esc(data.reason)+' ');
       }catch(e){ /* next */ }
@@ -428,7 +435,7 @@
             '<b>Auto-updating.</b> This page checks for new jobs every 10&nbsp;minutes — the time it last '+
             'refreshed is shown top-right in London time. Mobile/roving roles are excluded.';
           setUpdatedStamp(data.generatedAtISO);
-          applyAndRender(data.jobs); setLoading(false); return;
+          DATA = data.jobs; applyAndRender(DATA); setLoading(false); return;
         }
       }
     }catch(e){ /* fall back to snapshot */ }
@@ -436,7 +443,7 @@
     // 3) embedded verified snapshot (opened as a local file / offline)
     setMode(false);
     setUpdatedStamp((SNAPSHOT_META.capturedISO||'2026-06-20')+'T12:00:00Z');
-    applyAndRender(SNAPSHOT);
+    DATA = SNAPSHOT; applyAndRender(DATA);
     setLoading(false);
   }
 
