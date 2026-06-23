@@ -15,6 +15,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { computeBusTimes } = require('./bus-times');   // free, keyless UK bus times (gov.uk BODS)
 
 const OUT = path.join(__dirname, '..', 'jobs.json');
 const ORIGIN = { lat: 51.30824, lon: -0.791777 };        // 348 Pinewood Park, GU14 9LJ (postcodes.io centroid)
@@ -144,6 +145,17 @@ function easeLabel(min) {
   if (min <= 70) return 'Doable';
   return 'Far';
 }
+// recompute the best mode/time/ease across whatever modes have real data (incl. bus)
+function recomputeBest(c) {
+  const modes = [];
+  if (c.walkMin != null) modes.push(['walk', c.walkMin]);
+  if (c.cycleMin != null) modes.push(['cycle', c.cycleMin]);
+  if (c.busMin != null) modes.push(['bus', c.busMin]);
+  if (!modes.length) return;
+  const best = modes.reduce((a, b) => (b[1] < a[1] ? b : a));
+  c.bestMode = best[0]; c.bestMin = best[1]; c.ease = easeLabel(best[1]);
+  c.source = c.busMin != null ? 'OpenStreetMap routing + BODS bus timetable (gov.uk)' : 'OpenStreetMap routing';
+}
 async function computeCommute(job) {
   const pc = jobPostcode(job);
   if (!pc) return null;
@@ -222,6 +234,26 @@ async function computeCommute(job) {
     if (j.commute && j.commute.lat != null) j.distanceMiles = haversineMi(j.commute.lat, j.commute.lon);
   }
   console.log(`Commute: ${jobs.filter((j) => j.commute).length}/${jobs.length} jobs have times (${computed} newly computed, from ${HOME_PC}).`);
+
+  // real bus times from gov.uk BODS (keyless). Only for jobs not yet bus-checked, in ONE
+  // GTFS pass — so the heavy 700 MB stream runs only when there are genuinely new jobs.
+  const needBus = jobs.filter((j) => j.commute && !j.commute.busChecked);
+  if (needBus.length) {
+    try {
+      const busRes = await computeBusTimes(ORIGIN, jobs.filter((j) => j.commute));
+      for (const j of jobs) {
+        if (!j.commute || j.commute.busChecked) continue;
+        const b = busRes[j.id];
+        if (b) {
+          j.commute.busMin = b.busMin;
+          j.commute.bus = { route: b.route, rideMin: b.rideMin, fromStop: b.fromStop, toStop: b.toStop, waitMin: b.waitMin, headwayMin: b.headwayMin, source: b.source };
+        }
+        j.commute.busChecked = true;
+        recomputeBest(j.commute);
+      }
+      console.log(`Bus: ${jobs.filter((j) => j.commute && j.commute.busMin != null).length}/${jobs.length} jobs have a direct bus; best mode now includes bus.`);
+    } catch (e) { console.log('Bus times unavailable (kept walk/cycle):', e.message); }
+  }
 
   // newest-seen first
   jobs.sort((a, b) => (Date.parse(b.firstSeenISO || 0) || 0) - (Date.parse(a.firstSeenISO || 0) || 0)

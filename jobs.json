@@ -1,5 +1,5 @@
 {
-  "generatedAtISO": "2026-06-23T13:26:47.201Z",
+  "generatedAtISO": "2026-06-23T13:34:53.806Z",
   "origin": "GU14 9LJ",
   "radiusMiles": 10,
   "count": 9,
@@ -32,7 +32,8 @@
         "ease": "Easy",
         "source": "OpenStreetMap routing",
         "lat": 51.301041,
-        "lon": -0.744342
+        "lon": -0.744342,
+        "busChecked": true
       }
     },
     {
@@ -56,13 +57,23 @@
         "jobPostcode": "GU11 1RG",
         "walkMin": 117,
         "cycleMin": 44,
-        "busMin": null,
+        "busMin": 59,
         "bestMode": "cycle",
         "bestMin": 44,
         "ease": "Moderate",
-        "source": "OpenStreetMap routing",
+        "source": "OpenStreetMap routing + BODS bus timetable (gov.uk)",
         "lat": 51.252286,
-        "lon": -0.761504
+        "lon": -0.761504,
+        "bus": {
+          "route": "402",
+          "rideMin": 33,
+          "fromStop": "Lakeside Gardens",
+          "toStop": "Union Buildings",
+          "waitMin": 15,
+          "headwayMin": null,
+          "source": "BODS GTFS (gov.uk) · weekday daytime"
+        },
+        "busChecked": true
       }
     },
     {
@@ -92,7 +103,8 @@
         "ease": "Easy",
         "source": "OpenStreetMap routing",
         "lat": 51.274316,
-        "lon": -0.826773
+        "lon": -0.826773,
+        "busChecked": true
       }
     },
     {
@@ -122,7 +134,8 @@
         "ease": "Easy",
         "source": "OpenStreetMap routing",
         "lat": 51.323022,
-        "lon": -0.753142
+        "lon": -0.753142,
+        "busChecked": true
       }
     },
     {
@@ -152,7 +165,8 @@
         "ease": "Easy",
         "source": "OpenStreetMap routing",
         "lat": 51.333458,
-        "lon": -0.79568
+        "lon": -0.79568,
+        "busChecked": true
       }
     },
     {
@@ -182,7 +196,8 @@
         "ease": "Far",
         "source": "OpenStreetMap routing",
         "lat": 51.182976,
-        "lon": -0.794553
+        "lon": -0.794553,
+        "busChecked": true
       }
     },
     {
@@ -206,13 +221,23 @@
         "jobPostcode": "GU14 9ES",
         "walkMin": 6,
         "cycleMin": 3,
-        "busMin": null,
+        "busMin": 24,
         "bestMode": "cycle",
         "bestMin": 3,
         "ease": "Very easy",
-        "source": "OpenStreetMap routing",
+        "source": "OpenStreetMap routing + BODS bus timetable (gov.uk)",
         "lat": 51.306126,
-        "lon": -0.789078
+        "lon": -0.789078,
+        "bus": {
+          "route": "2",
+          "rideMin": 1,
+          "fromStop": "Lakeside Gardens",
+          "toStop": "Pinewood School",
+          "waitMin": 15,
+          "headwayMin": 30,
+          "source": "BODS GTFS (gov.uk) · weekday daytime"
+        },
+        "busChecked": true
       }
     },
     {
@@ -242,7 +267,8 @@
         "ease": "Moderate",
         "source": "OpenStreetMap routing",
         "lat": 51.248631,
-        "lon": -0.7611
+        "lon": -0.7611,
+        "busChecked": true
       }
     },
     {
@@ -272,7 +298,8 @@
         "ease": "Easy",
         "source": "OpenStreetMap routing",
         "lat": 51.294063,
-        "lon": -0.743471
+        "lon": -0.743471,
+        "busChecked": true
       }
     }
   ]
