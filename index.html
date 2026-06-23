@@ -141,7 +141,14 @@
   .src{color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:1px 6px}
   .desc{font-family:var(--body);font-size:.95rem;line-height:1.55;color:var(--ink);margin-top:11px;
     text-wrap:pretty;overflow-wrap:anywhere}
-  .rowj-foot{margin-top:13px}
+  .rowj-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:13px}
+  .act{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);background:none;border:1px solid var(--line);border-radius:4px;min-height:38px;padding:6px 12px;
+    cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:color .15s,border-color .15s;touch-action:manipulation}
+  .act:hover{color:var(--ink);border-color:var(--line-strong)}
+  .act.on{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  .cnt-link{color:var(--accent);cursor:pointer;text-decoration:underline}
+  .cm-approx{color:var(--muted)}
   .view{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:9px 16px;
     font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
     color:var(--accent);text-decoration:none;border:1px solid var(--line-strong);border-radius:4px;
@@ -240,6 +247,21 @@
         <div class="toggle"><input type="checkbox" id="schools" checked onchange="applyFilters()"><span>Schools only</span></div>
       </div>
     </div>
+    <div class="row" style="margin-top:12px">
+      <div class="field">
+        <label for="sort">Sort by</label>
+        <select id="sort" onchange="applyFilters()">
+          <option value="newest" selected>Newest seen</option>
+          <option value="commute">Easiest commute</option>
+          <option value="distance">Nearest</option>
+          <option value="pay">Best pay</option>
+        </select>
+      </div>
+      <div class="field" style="flex:0 1 auto">
+        <label>&nbsp;</label>
+        <div class="toggle"><input type="checkbox" id="savedOnly" onchange="applyFilters()"><span>Saved only</span></div>
+      </div>
+    </div>
     <p class="hint">Covers the whole role family — <b>catering assistant, kitchen assistant, catering
       operative, canteen &amp; servery assistant, food-service assistant, school cook, kitchen porter,
       dinner assistant</b>. Leave <b>Schools only</b> ticked for school roles; untick to include other
@@ -296,9 +318,9 @@
     {"id":"v4","title":"School Catering Assistant — Guillemont Juniors","employer":"Chartwells","url":"https://www.jobijoba.co.uk/detail/92/a81a7bcc0e1d0879132039f78e0650bf","source":"jobijoba","location":"Farnborough, GU14 9ES","distanceMiles":0.2,"salaryHourly":12.81,"salaryText":null,"postedDateISO":"2026-06-01","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted 1 Jun","desc":"Kitchen assistant for Chartwells at Guillemont Junior School, Farnborough — part time, around 15 hrs/week, term time. About 1 mile from GU14 9LJ.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU14 9ES","walkMin":6,"cycleMin":3,"busMin":24,"bestMode":"cycle","bestMin":3,"ease":"Very easy","source":"OpenStreetMap routing + BODS bus timetable (gov.uk)","lat":51.306126,"lon":-0.789078,"bus":{"route":"2","rideMin":1,"fromStop":"Lakeside Gardens","toStop":"Pinewood School","waitMin":15,"headwayMin":30,"source":"BODS GTFS (gov.uk) · weekday daytime"},"busChecked":true}},
     {"id":"v5","title":"School Catering Assistant — Camberley","employer":"Chartwells (Compass Group UK&I)","url":"https://jobs.compass-group.co.uk/job/75813082","source":"compass","location":"Camberley, GU15 2QB","distanceMiles":2,"salaryHourly":12.71,"salaryText":null,"postedDateISO":"2026-06-12","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted ~1 week ago","desc":"Part-time catering assistant (20 hrs/week, 44 weeks/year, Mon–Fri) with Chartwells at a school — food prep, counter displays, till, and food hygiene & safety standards.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU15 2QB","walkMin":77,"cycleMin":25,"busMin":null,"bestMode":"cycle","bestMin":25,"ease":"Easy","source":"OpenStreetMap routing","lat":51.323022,"lon":-0.753142,"busChecked":true}},
     {"id":"v6","title":"School Catering Assistant — Camberley (GU17)","employer":"Chartwells (Compass Group UK&I)","url":"https://www.caterer.com/job/school-catering-assistant/chartwells-job107520879","source":"caterer","location":"Camberley, GU17 0NY","distanceMiles":1.8,"salaryHourly":14.01,"salaryText":null,"postedDateISO":"2026-06-12","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Posted ~1 week ago","desc":"Catering assistant in a fast-paced school catering team with Chartwells (part of Compass Group) — food service, counter and kitchen support, term-time hours.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU17 0NY","walkMin":55,"cycleMin":21,"busMin":null,"bestMode":"cycle","bestMin":21,"ease":"Easy","source":"OpenStreetMap routing","lat":51.333458,"lon":-0.79568,"busChecked":true}},
-    {"id":"v7","title":"School Catering Assistant — Aldershot","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4913432/school-catering-assistant-aldershot","source":"leisure_hospi","location":"Aldershot","distanceMiles":4.3,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 14 Jul","desc":"Kitchen assistant for ESS/Chartwells, part time 10 hrs/week, 43 weeks/year — food prep, kitchen cleanliness, deliveries, food hygiene. Enhanced DBS required.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU11 1AA","walkMin":122,"cycleMin":45,"busMin":null,"bestMode":"cycle","bestMin":45,"ease":"Moderate","source":"OpenStreetMap routing","lat":51.248631,"lon":-0.7611,"busChecked":true}},
-    {"id":"v8","title":"School Catering Assistant — Farnborough","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4886303/school-catering-assistant-farnborough","source":"leisure_hospi","location":"Farnborough","distanceMiles":2.3,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 24 Jun","desc":"Part-time kitchen assistant for ESS/Chartwells, 15 hrs/week, 43.8 weeks/year — preparing food, kitchen cleanliness, machinery use and deliveries. Enhanced DBS required.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU14 7JA","walkMin":67,"cycleMin":24,"busMin":null,"bestMode":"cycle","bestMin":24,"ease":"Easy","source":"OpenStreetMap routing","lat":51.294063,"lon":-0.743471,"busChecked":true}},
-    {"id":"v9","title":"Catering Assistant — Edgeborough School","employer":"Edgeborough School","url":"https://www.reed.co.uk/jobs/catering-assistant/57010099","source":"reed","location":"Frensham, Farnham","distanceMiles":8.7,"salaryHourly":null,"salaryText":"£17,845 / year","postedDateISO":"2026-06-11","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 29 Jun","desc":"Catering assistant at Edgeborough School (independent prep school) — food preparation, hygiene and allergen compliance, morning fruit and afternoon snacks, sandwiches for clubs/events.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU10 3AH","walkMin":246,"cycleMin":79,"busMin":null,"bestMode":"cycle","bestMin":79,"ease":"Far","source":"OpenStreetMap routing","lat":51.182976,"lon":-0.794553,"busChecked":true}}
+    {"id":"v7","title":"School Catering Assistant — Aldershot","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4913432/school-catering-assistant-aldershot","source":"leisure_hospi","location":"Aldershot","distanceMiles":4.3,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 14 Jul","desc":"Kitchen assistant for ESS/Chartwells, part time 10 hrs/week, 43 weeks/year — food prep, kitchen cleanliness, deliveries, food hygiene. Enhanced DBS required.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU11 1AA","walkMin":122,"cycleMin":45,"busMin":null,"bestMode":"cycle","bestMin":45,"ease":"Moderate","source":"OpenStreetMap routing","lat":51.248631,"lon":-0.7611,"busChecked":true,"approx":true}},
+    {"id":"v8","title":"School Catering Assistant — Farnborough","employer":"ESS (Chartwells / Compass Group)","url":"https://www.leisurejobs.com/job/4886303/school-catering-assistant-farnborough","source":"leisure_hospi","location":"Farnborough","distanceMiles":2.3,"salaryHourly":null,"salaryText":"Competitive","postedDateISO":null,"firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 24 Jun","desc":"Part-time kitchen assistant for ESS/Chartwells, 15 hrs/week, 43.8 weeks/year — preparing food, kitchen cleanliness, machinery use and deliveries. Enhanced DBS required.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU14 7JA","walkMin":67,"cycleMin":24,"busMin":null,"bestMode":"cycle","bestMin":24,"ease":"Easy","source":"OpenStreetMap routing","lat":51.294063,"lon":-0.743471,"busChecked":true,"approx":true}},
+    {"id":"v9","title":"Catering Assistant — Edgeborough School","employer":"Edgeborough School","url":"https://www.reed.co.uk/jobs/catering-assistant/57010099","source":"reed","location":"Frensham, Farnham","distanceMiles":8.7,"salaryHourly":null,"salaryText":"£17,845 / year","postedDateISO":"2026-06-11","firstSeenISO":"2026-06-20","isNew":false,"dateLabel":"Closing 29 Jun","desc":"Catering assistant at Edgeborough School (independent prep school) — food preparation, hygiene and allergen compliance, morning fruit and afternoon snacks, sandwiches for clubs/events.","school":true,"commute":{"fromPostcode":"GU14 9LJ","jobPostcode":"GU10 3AH","walkMin":246,"cycleMin":79,"busMin":null,"bestMode":"cycle","bestMin":79,"ease":"Far","source":"OpenStreetMap routing","lat":51.182976,"lon":-0.794553,"busChecked":true,"approx":true}}
   ];
   // <<<SNAPSHOT_END>>>
   // ====================================================================
@@ -316,6 +338,20 @@
 
   let liveMode = false;
   let DATA = SNAPSHOT;        // last loaded dataset; filter changes re-render this without re-fetching
+
+  // ---- save / hide (localStorage; survives refreshes, no account) ----
+  const LS = { get:(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []}}, set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
+  const savedSet = ()=> new Set(LS.get('savedJobs'));
+  const hiddenSet = ()=> new Set(LS.get('hiddenJobs'));
+  function toggleSave(url){ const s=LS.get('savedJobs'); const i=s.indexOf(url); i<0?s.push(url):s.splice(i,1); LS.set('savedJobs',s); applyFilters(); }
+  function toggleHide(url){ const h=LS.get('hiddenJobs'); const i=h.indexOf(url); i<0?h.push(url):h.splice(i,1); LS.set('hiddenJobs',h); applyFilters(); }
+  function unhideAll(){ LS.set('hiddenJobs',[]); applyFilters(); }
+  const jsq = (s)=> String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  function directionsUrl(j){
+    const dest = (j.commute&&j.commute.lat!=null) ? (j.commute.lat+','+j.commute.lon) : encodeURIComponent(j.location||'');
+    const mode = (j.commute&&j.commute.bestMode==='cycle')?'bicycling':(j.commute&&j.commute.bestMode==='walk')?'walking':'transit';
+    return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent('GU14 9LJ')+'&destination='+dest+'&travelmode='+mode;
+  }
   function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function salaryHtml(j){
     if(j.salaryHourly!=null) return '<span class="salary">£'+Number(j.salaryHourly).toFixed(2)+'/hr</span>';
@@ -342,27 +378,40 @@
     }).join('');
     const ec='cm-ease ease-'+String(c.ease||'').toLowerCase().replace(/\s+/g,'-');
     return `<div class="commute">
-        <div class="cm-head"><span class="cm-label">Commute from ${esc(c.fromPostcode||'home')}</span>${c.ease?`<span class="${ec}">${esc(c.ease)}</span>`:''}</div>
+        <div class="cm-head"><span class="cm-label">Commute from ${esc(c.fromPostcode||'home')}${c.approx?' · <span class="cm-approx" title="The listing names only the town, so this is measured to the town centre">≈ town</span>':''}</span>${c.ease?`<span class="${ec}">${esc(c.ease)}</span>`:''}</div>
         <div class="cm-modes">${chips}</div>
         <div class="cm-src">estimated via ${esc(c.source||'OpenStreetMap')}</div>
       </div>`;
   }
 
-  function render(jobs){
+  function sortJobs(jobs){
+    const mode = (document.getElementById('sort')||{}).value || 'newest';
+    const n = (x,d)=> (x==null?d:x);
+    if(mode==='commute') jobs.sort((a,b)=> n(a.commute&&a.commute.bestMin,1e9)-n(b.commute&&b.commute.bestMin,1e9));
+    else if(mode==='distance') jobs.sort((a,b)=> n(a.distanceMiles,1e9)-n(b.distanceMiles,1e9));
+    else if(mode==='pay') jobs.sort((a,b)=> n(b.salaryHourly,-1)-n(a.salaryHourly,-1));
+    else jobs.sort((a,b)=> seenKey(b)-seenKey(a) || (Date.parse(b.postedDateISO||0)||0)-(Date.parse(a.postedDateISO||0)||0) || n(a.distanceMiles,99)-n(b.distanceMiles,99));
+    return jobs;
+  }
+  function render(jobs, hiddenCount){
     const root = document.getElementById('results');
     if(!jobs.length){
-      root.innerHTML = '<li class="empty">No matching school catering vacancies in range right now.<br>Try widening the distance or unticking “Schools only”.</li>';
+      root.innerHTML = '<li class="empty">No vacancies match your filters.'+
+        (hiddenCount?'<br><a class="cnt-link" href="#" onclick="unhideAll();return false">Show '+hiddenCount+' hidden</a>':'<br>Try widening the distance or unticking a filter.')+'</li>';
       document.getElementById('count').innerHTML = '';
       return;
     }
-    jobs.sort((a,b)=> seenKey(b)-seenKey(a)
-      || (Date.parse(b.postedDateISO||0)||0)-(Date.parse(a.postedDateISO||0)||0)
-      || (a.distanceMiles??99)-(b.distanceMiles??99));
+    sortJobs(jobs);
+    const saved = savedSet();
     const newCount = jobs.filter(j=>j.isNew).length;
+    const sortLabel = ({newest:'newest first',commute:'easiest commute',distance:'nearest first',pay:'best pay'})[(document.getElementById('sort')||{}).value||'newest'];
     document.getElementById('count').innerHTML =
       '<span class="num">'+jobs.length+'</span> '+(liveMode?'live':'verified')+' vacanc'+(jobs.length===1?'y':'ies')+
-      (newCount?' · '+newCount+' new':'')+' · newest first';
-    root.innerHTML = jobs.map((j,i)=>`
+      (newCount?' · '+newCount+' new':'')+' · '+sortLabel+
+      (hiddenCount?' · <a class="cnt-link" href="#" onclick="unhideAll();return false">'+hiddenCount+' hidden</a>':'');
+    root.innerHTML = jobs.map((j,i)=>{
+      const sv = saved.has(j.url);
+      return `
       <li class="rowj reveal ${j.isNew?'is-new':''}" style="--i:${i}">
         <div class="rowj-top">
           <h3 class="rowj-title">${esc(j.title)}</h3>
@@ -380,8 +429,11 @@
         ${commuteHtml(j)}
         <div class="rowj-foot">
           <a class="view" href="${esc(j.url)}" target="_blank" rel="noopener">View job →</a>
+          <a class="act" href="${esc(directionsUrl(j))}" target="_blank" rel="noopener" title="Open directions from GU14 9LJ in your maps app">Directions →</a>
+          <button class="act ${sv?'on':''}" type="button" onclick="toggleSave('${jsq(j.url)}')">${sv?'Saved':'Save'}</button>
+          <button class="act" type="button" onclick="toggleHide('${jsq(j.url)}')">Hide</button>
         </div>
-      </li>`).join('');
+      </li>`;}).join('');
   }
 
   function setLoading(on){
@@ -420,11 +472,15 @@
   function applyAndRender(jobs){
     const radius = Number(document.getElementById('radius').value);
     const schoolsOnly = document.getElementById('schools').checked;
+    const savedOnly = !!(document.getElementById('savedOnly') && document.getElementById('savedOnly').checked);
+    const hidden = hiddenSet(), saved = savedSet();
     let out = jobs.map(j=>({...j}))
       .filter(j=> !isMobileRole(j))                               // never show mobile/roving
       .filter(j=> j.distanceMiles==null || j.distanceMiles <= radius);
     if(schoolsOnly) out = out.filter(j=> j.school!==false);
-    render(out);
+    const hiddenCount = out.filter(j=> hidden.has(j.url)).length;
+    out = savedOnly ? out.filter(j=> saved.has(j.url)) : out.filter(j=> !hidden.has(j.url));
+    render(out, hiddenCount);
   }
 
   // top-right stamp: when the list was last updated, in BST/GMT London time

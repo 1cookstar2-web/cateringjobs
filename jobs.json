@@ -197,7 +197,8 @@
         "source": "OpenStreetMap routing",
         "lat": 51.182976,
         "lon": -0.794553,
-        "busChecked": true
+        "busChecked": true,
+        "approx": true
       }
     },
     {
@@ -268,7 +269,8 @@
         "source": "OpenStreetMap routing",
         "lat": 51.248631,
         "lon": -0.7611,
-        "busChecked": true
+        "busChecked": true,
+        "approx": true
       }
     },
     {
@@ -299,7 +301,8 @@
         "source": "OpenStreetMap routing",
         "lat": 51.294063,
         "lon": -0.743471,
-        "busChecked": true
+        "busChecked": true,
+        "approx": true
       }
     }
   ]

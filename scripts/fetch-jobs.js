@@ -109,9 +109,9 @@ async function geocodePostcode(pc) {
 }
 function jobPostcode(job) {
   const m = `${job.location || ''} ${job.desc || ''}`.match(POSTCODE_RE);
-  if (m) return normPC(m[1]);
+  if (m) return { pc: normPC(m[1]), approx: false };
   const loc = (job.location || '').toLowerCase();
-  for (const t of Object.keys(TOWN_PC)) if (loc.includes(t)) return TOWN_PC[t];
+  for (const t of Object.keys(TOWN_PC)) if (loc.includes(t)) return { pc: TOWN_PC[t], approx: true };
   return null;
 }
 async function osrm(profile, from, to) {
@@ -157,9 +157,9 @@ function recomputeBest(c) {
   c.source = c.busMin != null ? 'OpenStreetMap routing + BODS bus timetable (gov.uk)' : 'OpenStreetMap routing';
 }
 async function computeCommute(job) {
-  const pc = jobPostcode(job);
-  if (!pc) return null;
-  const to = await geocodePostcode(pc);
+  const pcInfo = jobPostcode(job);
+  if (!pcInfo) return null;
+  const to = await geocodePostcode(pcInfo.pc);
   if (!to) return null;
   const walk = await osrm('foot', ORIGIN, to);
   const cycle = await osrm('bike', ORIGIN, to);
@@ -171,7 +171,7 @@ async function computeCommute(job) {
   if (!modes.length) return null;
   const best = modes.reduce((a, b) => (b.min < a.min ? b : a));
   return {
-    fromPostcode: HOME_PC, jobPostcode: pc,
+    fromPostcode: HOME_PC, jobPostcode: pcInfo.pc, approx: pcInfo.approx,
     walkMin: walk, cycleMin: cycle, busMin: bus,
     bestMode: best.mode, bestMin: best.min, ease: easeLabel(best.min),
     source: bus != null ? 'OpenStreetMap + bus timetable' : 'OpenStreetMap routing',
