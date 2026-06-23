@@ -17,7 +17,8 @@ const fs = require('fs');
 const path = require('path');
 
 const OUT = path.join(__dirname, '..', 'jobs.json');
-const ORIGIN = { lat: 51.2845, lon: -0.7596 };           // GU14 9LJ (approx)
+const ORIGIN = { lat: 51.30824, lon: -0.791777 };        // 348 Pinewood Park, GU14 9LJ (postcodes.io centroid)
+const HOME_PC = 'GU14 9LJ';
 const RADIUS_MI = 10;
 const NEW_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;   // "New" = POSTED within the last 3 days
 
@@ -91,6 +92,81 @@ async function fetchAdzuna() {
   return { ok: out.length > 0, jobs: out };
 }
 
+// ---- commute: real walk/cycle (keyless OSM) + optional bus (free TransportAPI key) ----
+const TOWN_PC = { aldershot: 'GU11 1AA', farnborough: 'GU14 7JA', frensham: 'GU10 3AH', farnham: 'GU9 7AA', fleet: 'GU51 3AA', 'church crookham': 'GU52 6AA', camberley: 'GU15 3AA', blackwater: 'GU17 9AA', frimley: 'GU16 7AA' };
+const POSTCODE_RE = /\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b/i;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const normPC = (p) => p.toUpperCase().replace(/\s+/g, '').replace(/(\d[A-Z]{2})$/, ' $1');
+
+async function geocodePostcode(pc) {
+  try {
+    const r = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(pc)}`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j.result ? { lat: j.result.latitude, lon: j.result.longitude } : null;
+  } catch (e) { return null; }
+}
+function jobPostcode(job) {
+  const m = `${job.location || ''} ${job.desc || ''}`.match(POSTCODE_RE);
+  if (m) return normPC(m[1]);
+  const loc = (job.location || '').toLowerCase();
+  for (const t of Object.keys(TOWN_PC)) if (loc.includes(t)) return TOWN_PC[t];
+  return null;
+}
+async function osrm(profile, from, to) {
+  try {
+    const u = `https://routing.openstreetmap.de/routed-${profile}/route/v1/${profile}/${from.lon},${from.lat};${to.lon},${to.lat}?overview=false`;
+    const r = await fetch(u);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return (j.routes && j.routes[0]) ? Math.round(j.routes[0].duration / 60) : null;
+  } catch (e) { return null; }
+}
+function hmsToMin(s) { const m = String(s).match(/(\d+):(\d+)(?::\d+)?/); return m ? (+m[1]) * 60 + (+m[2]) : null; }
+async function busMin(from, to) {
+  const id = process.env.TRANSPORTAPI_APP_ID, key = process.env.TRANSPORTAPI_APP_KEY;
+  if (!id || !key) return null;     // bus stays off until a free TransportAPI key is in Secrets
+  try {
+    const u = `https://transportapi.com/v3/uk/public/journey/from/lonlat:${from.lon},${from.lat}/to/lonlat:${to.lon},${to.lat}.json?app_id=${id}&app_key=${key}&service=southeast&modes=bus`;
+    const r = await fetch(u);
+    if (!r.ok) return null;
+    const j = await r.json();
+    let best = null;
+    for (const rt of (j.routes || [])) { const m = rt.duration ? hmsToMin(rt.duration) : null; if (m != null && (best == null || m < best)) best = m; }
+    return best;
+  } catch (e) { return null; }
+}
+function easeLabel(min) {
+  if (min == null) return null;
+  if (min <= 15) return 'Very easy';
+  if (min <= 30) return 'Easy';
+  if (min <= 45) return 'Moderate';
+  if (min <= 70) return 'Doable';
+  return 'Far';
+}
+async function computeCommute(job) {
+  const pc = jobPostcode(job);
+  if (!pc) return null;
+  const to = await geocodePostcode(pc);
+  if (!to) return null;
+  const walk = await osrm('foot', ORIGIN, to);
+  const cycle = await osrm('bike', ORIGIN, to);
+  const bus = await busMin(ORIGIN, to);
+  const modes = [];
+  if (walk != null) modes.push({ mode: 'walk', min: walk });
+  if (cycle != null) modes.push({ mode: 'cycle', min: cycle });
+  if (bus != null) modes.push({ mode: 'bus', min: bus });
+  if (!modes.length) return null;
+  const best = modes.reduce((a, b) => (b.min < a.min ? b : a));
+  return {
+    fromPostcode: HOME_PC, jobPostcode: pc,
+    walkMin: walk, cycleMin: cycle, busMin: bus,
+    bestMode: best.mode, bestMin: best.min, ease: easeLabel(best.min),
+    source: bus != null ? 'OpenStreetMap + bus timetable' : 'OpenStreetMap routing',
+    lat: to.lat, lon: to.lon,
+  };
+}
+
 (async () => {
   const now = Date.now();
   const nowISO = new Date(now).toISOString();
@@ -133,6 +209,19 @@ async function fetchAdzuna() {
     }));
     console.log(`No Adzuna key (or no results) — kept ${jobs.length} baseline jobs, refreshed timestamp.`);
   }
+
+  // real commute times (cached per job — only compute for jobs we haven't measured yet,
+  // so the free OSM/postcodes services aren't hammered every 10 minutes)
+  const commuteCache = {};
+  for (const j of (baseline.jobs || [])) if (j.commute) commuteCache[j.id || j.url] = j.commute;
+  let computed = 0;
+  for (const j of jobs) {
+    const key = j.id || j.url;
+    if (commuteCache[key]) { j.commute = commuteCache[key]; }
+    else { j.commute = await computeCommute(j); if (j.commute) computed++; await sleep(300); }
+    if (j.commute && j.commute.lat != null) j.distanceMiles = haversineMi(j.commute.lat, j.commute.lon);
+  }
+  console.log(`Commute: ${jobs.filter((j) => j.commute).length}/${jobs.length} jobs have times (${computed} newly computed, from ${HOME_PC}).`);
 
   // newest-seen first
   jobs.sort((a, b) => (Date.parse(b.firstSeenISO || 0) || 0) - (Date.parse(a.firstSeenISO || 0) || 0)

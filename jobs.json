@@ -1,5 +1,5 @@
 {
-  "generatedAtISO": "2026-06-23T12:20:50.411Z",
+  "generatedAtISO": "2026-06-23T13:06:00.100Z",
   "origin": "GU14 9LJ",
   "radiusMiles": 10,
   "count": 9,
@@ -12,7 +12,7 @@
       "url": "https://jobs.compass-group.co.uk/job/75816135",
       "source": "compass",
       "location": "Farnborough, GU14 8BX",
-      "distanceMiles": 0.5,
+      "distanceMiles": 2.1,
       "salaryHourly": 13.81,
       "salaryText": null,
       "postedDateISO": "2026-06-15",
@@ -20,7 +20,20 @@
       "isNew": false,
       "dateLabel": "Posted 15 Jun",
       "desc": "School cook at Henry Tyndale (special school), Farnborough — part time 25 hrs/week, 43.8 weeks/year. Food preparation and service in the school kitchen. Enhanced DBS required.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU14 8BX",
+        "walkMin": 59,
+        "cycleMin": 20,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 20,
+        "ease": "Easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.301041,
+        "lon": -0.744342
+      }
     },
     {
       "id": "v2",
@@ -29,7 +42,7 @@
       "url": "https://www.adzuna.co.uk/jobs/details/5767532474",
       "source": "adzuna_web",
       "location": "Aldershot, GU11 1RG",
-      "distanceMiles": 2.5,
+      "distanceMiles": 4.1,
       "salaryHourly": 12.56,
       "salaryText": null,
       "postedDateISO": "2026-06-13",
@@ -37,7 +50,20 @@
       "isNew": false,
       "dateLabel": "Live — apply now",
       "desc": "Kitchen/catering assistant at Talavera Junior School, Aldershot for Chartwells — part time 10 hrs/week, 43 weeks/year. Food prep, kitchen cleanliness, deliveries, food hygiene.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU11 1RG",
+        "walkMin": 117,
+        "cycleMin": 44,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 44,
+        "ease": "Moderate",
+        "source": "OpenStreetMap routing",
+        "lat": 51.252286,
+        "lon": -0.761504
+      }
     },
     {
       "id": "v3",
@@ -46,7 +72,7 @@
       "url": "https://www.totaljobs.com/job/school-catering-assistant/chartwells-job107500230",
       "source": "totaljobs",
       "location": "Fleet, GU52 7LG",
-      "distanceMiles": 6,
+      "distanceMiles": 2.8,
       "salaryHourly": 12.81,
       "salaryText": null,
       "postedDateISO": "2026-06-13",
@@ -54,7 +80,20 @@
       "isNew": false,
       "dateLabel": "Posted ~1 week ago",
       "desc": "Kitchen assistant for Chartwells at Velmead Junior School, Fleet — part time 10 hrs/week, 43.8 weeks/year. Preparing food, kitchen cleanliness, food hygiene compliance.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU52 7LG",
+        "walkMin": 80,
+        "cycleMin": 30,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 30,
+        "ease": "Easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.274316,
+        "lon": -0.826773
+      }
     },
     {
       "id": "v5",
@@ -63,7 +102,7 @@
       "url": "https://jobs.compass-group.co.uk/job/75813082",
       "source": "compass",
       "location": "Camberley, GU15 2QB",
-      "distanceMiles": 5,
+      "distanceMiles": 2,
       "salaryHourly": 12.71,
       "salaryText": null,
       "postedDateISO": "2026-06-12",
@@ -71,7 +110,20 @@
       "isNew": false,
       "dateLabel": "Posted ~1 week ago",
       "desc": "Part-time catering assistant (20 hrs/week, 44 weeks/year, Mon–Fri) with Chartwells at a school — food prep, counter displays, till, and food hygiene & safety standards.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU15 2QB",
+        "walkMin": 77,
+        "cycleMin": 25,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 25,
+        "ease": "Easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.323022,
+        "lon": -0.753142
+      }
     },
     {
       "id": "v6",
@@ -80,7 +132,7 @@
       "url": "https://www.caterer.com/job/school-catering-assistant/chartwells-job107520879",
       "source": "caterer",
       "location": "Camberley, GU17 0NY",
-      "distanceMiles": 7,
+      "distanceMiles": 1.8,
       "salaryHourly": 14.01,
       "salaryText": null,
       "postedDateISO": "2026-06-12",
@@ -88,7 +140,20 @@
       "isNew": false,
       "dateLabel": "Posted ~1 week ago",
       "desc": "Catering assistant in a fast-paced school catering team with Chartwells (part of Compass Group) — food service, counter and kitchen support, term-time hours.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU17 0NY",
+        "walkMin": 55,
+        "cycleMin": 21,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 21,
+        "ease": "Easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.333458,
+        "lon": -0.79568
+      }
     },
     {
       "id": "v9",
@@ -97,7 +162,7 @@
       "url": "https://www.reed.co.uk/jobs/catering-assistant/57010099",
       "source": "reed",
       "location": "Frensham, Farnham",
-      "distanceMiles": 8,
+      "distanceMiles": 8.7,
       "salaryHourly": null,
       "salaryText": "£17,845 / year",
       "postedDateISO": "2026-06-11",
@@ -105,7 +170,20 @@
       "isNew": false,
       "dateLabel": "Closing 29 Jun",
       "desc": "Catering assistant at Edgeborough School (independent prep school) — food preparation, hygiene and allergen compliance, morning fruit and afternoon snacks, sandwiches for clubs/events.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU10 3AH",
+        "walkMin": 246,
+        "cycleMin": 79,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 79,
+        "ease": "Far",
+        "source": "OpenStreetMap routing",
+        "lat": 51.182976,
+        "lon": -0.794553
+      }
     },
     {
       "id": "v4",
@@ -114,7 +192,7 @@
       "url": "https://www.jobijoba.co.uk/detail/92/a81a7bcc0e1d0879132039f78e0650bf",
       "source": "jobijoba",
       "location": "Farnborough, GU14 9ES",
-      "distanceMiles": 0.5,
+      "distanceMiles": 0.2,
       "salaryHourly": 12.81,
       "salaryText": null,
       "postedDateISO": "2026-06-01",
@@ -122,7 +200,20 @@
       "isNew": false,
       "dateLabel": "Posted 1 Jun",
       "desc": "Kitchen assistant for Chartwells at Guillemont Junior School, Farnborough — part time, around 15 hrs/week, term time. About 1 mile from GU14 9LJ.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU14 9ES",
+        "walkMin": 6,
+        "cycleMin": 3,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 3,
+        "ease": "Very easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.306126,
+        "lon": -0.789078
+      }
     },
     {
       "id": "v7",
@@ -131,7 +222,7 @@
       "url": "https://www.leisurejobs.com/job/4913432/school-catering-assistant-aldershot",
       "source": "leisure_hospi",
       "location": "Aldershot",
-      "distanceMiles": 3.5,
+      "distanceMiles": 4.3,
       "salaryHourly": null,
       "salaryText": "Competitive",
       "postedDateISO": null,
@@ -139,7 +230,20 @@
       "isNew": false,
       "dateLabel": "Closing 14 Jul",
       "desc": "Kitchen assistant for ESS/Chartwells, part time 10 hrs/week, 43 weeks/year — food prep, kitchen cleanliness, deliveries, food hygiene. Enhanced DBS required.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU11 1AA",
+        "walkMin": 122,
+        "cycleMin": 45,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 45,
+        "ease": "Moderate",
+        "source": "OpenStreetMap routing",
+        "lat": 51.248631,
+        "lon": -0.7611
+      }
     },
     {
       "id": "v8",
@@ -148,7 +252,7 @@
       "url": "https://www.leisurejobs.com/job/4886303/school-catering-assistant-farnborough",
       "source": "leisure_hospi",
       "location": "Farnborough",
-      "distanceMiles": 0,
+      "distanceMiles": 2.3,
       "salaryHourly": null,
       "salaryText": "Competitive",
       "postedDateISO": null,
@@ -156,7 +260,20 @@
       "isNew": false,
       "dateLabel": "Closing 24 Jun",
       "desc": "Part-time kitchen assistant for ESS/Chartwells, 15 hrs/week, 43.8 weeks/year — preparing food, kitchen cleanliness, machinery use and deliveries. Enhanced DBS required.",
-      "school": true
+      "school": true,
+      "commute": {
+        "fromPostcode": "GU14 9LJ",
+        "jobPostcode": "GU14 7JA",
+        "walkMin": 67,
+        "cycleMin": 24,
+        "busMin": null,
+        "bestMode": "cycle",
+        "bestMin": 24,
+        "ease": "Easy",
+        "source": "OpenStreetMap routing",
+        "lat": 51.294063,
+        "lon": -0.743471
+      }
     }
   ]
 }
