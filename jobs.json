@@ -1,5 +1,5 @@
 {
-  "generatedAtISO": "2026-06-23T23:48:05.412Z",
+  "generatedAtISO": "2026-06-24T00:12:09.213Z",
   "origin": "GU14 9LJ",
   "radiusMiles": 10,
   "count": 12,
@@ -17,7 +17,7 @@
       "salaryText": null,
       "postedDateISO": "2026-06-21",
       "firstSeenISO": "2026-06-23",
-      "isNew": true,
+      "isNew": false,
       "dateLabel": "Posted 21 Jun",
       "desc": "Part-time kitchen assistant for Chartwells at a Fleet school — 20 hrs/week, 43.8 weeks/year (term time). Single-site role. Enhanced DBS required.",
       "school": true,
